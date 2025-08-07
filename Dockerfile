@@ -19,10 +19,11 @@ RUN apt-get update && \
     libyaml-dev && \
     apt-get clean
 
-WORKDIR $GOPATH/src/udr
+RUN go install github.com/go-task/task/v3/cmd/task@latest
 
+WORKDIR $GOPATH/src/udr
 COPY . .
-RUN make all
+RUN task build
 
 FROM alpine:3.22 AS udr
 
