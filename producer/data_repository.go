@@ -3531,7 +3531,7 @@ func fetchK4(k4_sno byte) (string, error) {
 
 	k4Data, err := AuthDBClient.RestfulAPIGetOne(k4CollName, filter) // ver con pedro a ver si guardo en la basse de datos a la que apunta AuthDBclient que se llama authentication
 	if err != nil || k4Data == nil {
-		return "", fmt.Errorf("llave k4 con sno %s no encontrada", k4_sno)
+		return "", fmt.Errorf("llave k4 con sno %d no encontrada", k4_sno)
 	}
 
 	k4, _ := k4Data["k4"].(string)
