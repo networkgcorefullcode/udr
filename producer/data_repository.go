@@ -3526,7 +3526,7 @@ func QueryTraceDataProcedure(collName string, ueId string,
 
 // 2. Nueva función
 func fetchK4(k4_sno string) (string, error) {
-	k4CollName := "k4store.k4keys" // Nombre de colección a definir hablar con pedro para ver que nombre le pone
+	k4CollName := "encription.keydata.k4" // Nombre de colección a definir hablar con pedro para ver que nombre le pone
 	filter := bson.M{"k4_sno": k4_sno}
 
 	k4Data, err := AuthDBClient.RestfulAPIGetOne(k4CollName, filter) // ver con pedro a ver si guardo en la basse de datos a la que apunta AuthDBclient que se llama authentication
