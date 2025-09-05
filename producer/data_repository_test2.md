@@ -2,7 +2,6 @@
 package producer
 
 import (
-	"encoding/json"
 	"net/http"
 	"testing"
 
@@ -116,14 +115,6 @@ func TestQueryAuthSubsDataProcedure(t *testing.T) {
 
 		// --- EJECUCIÓN ---
 		authData, problemDetails := QueryAuthSubsDataProcedure(collName, ueId)
-
-		// --- INICIO: Código para imprimir authData como JSON ---
-		jsonData, errJson := json.MarshalIndent(authData, "", "  ")
-		if errJson != nil {
-			t.Fatalf("Error al convertir authData a JSON: %v", errJson)
-		}
-		t.Logf("authData como JSON:\n%s", string(jsonData))
-		// --- FIN: Código para imprimir authData como JSON ---
 
 		// --- VERIFICACIÓN ---
 		assert.Nil(t, problemDetails)
