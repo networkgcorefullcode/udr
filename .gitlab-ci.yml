@@ -68,10 +68,10 @@ build-docker-image:
       when: always
 
     # Caso 3: Push directo a dev
-    - if: '$CI_COMMIT_BRANCH == "dev"'
+    - if: '$CI_COMMIT_BRANCH == "dev" && $CI_PIPELINE_SOURCE != "merge_request_event"'
       when: always
 
-    - if: '$CI_COMMIT_BRANCH == "main"'
+    - if: '$CI_COMMIT_BRANCH == "main" && $CI_PIPELINE_SOURCE != "merge_request_event"'
       when: always
 
   artifacts:
@@ -136,6 +136,6 @@ update-helm-values:
     - if: '$CI_PIPELINE_SOURCE == "merge_request_event" && $CI_MERGE_REQUEST_TARGET_BRANCH_NAME == "dev"'
 
     # Caso 3: Push directo a dev
-    - if: '$CI_COMMIT_BRANCH == "dev"'
+    - if: '$CI_COMMIT_BRANCH == "dev" && $CI_PIPELINE_SOURCE != "merge_request_event"'
 
-    - if: '$CI_COMMIT_BRANCH == "main"'
+    - if: '$CI_COMMIT_BRANCH == "main" && $CI_PIPELINE_SOURCE != "merge_request_event"'
