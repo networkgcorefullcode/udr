@@ -388,39 +388,13 @@ func HandleQueryAuthSubsData(request *httpwrapper.Request) *httpwrapper.Response
 func QueryAuthSubsDataProcedure(collName string, ueId string) (map[string]interface{}, *models.ProblemDetails) {
 	filter := bson.M{"ueId": ueId}
 
-	authMap, errGetOne := AuthDBClient.RestfulAPIGetOne(collName, filter)
+	authenticationSubscription, errGetOne := AuthDBClient.RestfulAPIGetOne(collName, filter)
 	if errGetOne != nil {
 		logger.DataRepoLog.Warnln(errGetOne)
 	}
-	if authMap != nil {
-		//aqui empiezan las modificaciones
-		// 1a. Decodificar mapa a struct
-		var authSubs models.AuthenticationSubscription
-		mapstructure.Decode(authMap, &authSubs)
-		// 1b. & 1c. Verificar y obtener K4
-		if authSubs.PermanentKey != nil && authSubs.K4_SNO != 0 {
-			k4_sno := authSubs.K4_SNO
-			if k4, err := fetchK4(k4_sno); err == nil {
-				// 1d. Reemplazar llave
-				authSubs.PermanentKey.EncryptionKey = k4
-			} else {
-				logger.DataRepoLog.Warnf("No se pudo obtener K4 cuando se uso la funcion fetch k4 para sno %s: %v", k4_sno, err)
-			}
-		}
-		// aqui terminan la modificaciones, se cambio tb el nombre de la variable authMap que antes se llamaba authentication suscription
-		// 1e. Convertir struct de vuelta a mapa
-		// Paso 6: Convertir la estructura final (ya con los datos de K4) de nuevo a un mapa.
-		// La función debe devolver un map[string]interface{} para ser compatible con el resto del código.
-		finalMap := make(map[string]interface{})
-		jsonData, _ := json.Marshal(authSubs)
-		if err := json.Unmarshal(jsonData, &finalMap); err != nil {
-			logger.DataRepoLog.Errorf("Error al reconvertir la estructura final a mapa para UE %s: %v", ueId, err)
-			return nil, util.ProblemDetailsNotFound("Data not found") // aqui puse cualquier cosa pq el retorno tiene que ser un problem details arreglar mas tarde
-		}
-		// Se eliminan los campos nulos o vacíos para una respuesta más limpia, si es necesario.
-		delete(finalMap, "_id")
-		finalMap["ueId"] = ueId // añado el campo ueid ya que se habia perdido al mapear authmap a authsubs
-		return finalMap, nil
+
+	if authenticationSubscription != nil {
+		return authenticationSubscription, nil
 	} else {
 		return nil, util.ProblemDetailsNotFound("USER_NOT_FOUND")
 	}
