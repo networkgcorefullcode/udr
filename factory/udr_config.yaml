@@ -1,19 +1,46 @@
 ## SPDX-FileCopyrightText: 2023 Open Networking Foundation <info@opennetworking.org>
+## SPDX-FileCopyrightText: 2021 Open Networking Foundation <info@opennetworking.org>
+## Copyright 2019 free5GC.org
 ##
 ## SPDX-License-Identifier: Apache-2.0
 ##
+
 info:
   version: 1.0.0
   description: UDR initial local configuration
 
 configuration:
   sbi: # Service Based Interface
-    scheme: https
-    registerIPv4: 127.0.0.4
-    bindingIPv4: 0.0.0.0
-    port: 8000
-  mongodb:
-    name: aether
-    url: http://dummy
-    authKeysDbName: authentication
-    authUrl: http://dummy
+    scheme: http # the protocol for sbi (http or https)
+    registerIPv4: 172.28.31.5 # IP that is registered at NRF
+    bindingIPv4: 0.0.0.0  # IP used to bind the service
+    port: 27890 # port used to bind the service
+    tls: # TLS configuration (optional, used when scheme is https)
+      log: /var/log/udr.log # TLS log file
+      pem: /support/TLS/udr.pem # UDR TLS Certificate
+      key: /support/TLS/udr.key # UDR TLS Private key
+  mongodb: # MongoDB configuration
+    name: sdcore_udr # Main database name
+    url: "mongodb://172.28.31.5:27017/?replicaSet=rs0&connectTimeoutMS=10000" # MongoDB connection URL
+    authKeysDbName: authentication # Authentication keys database name
+    authUrl: "mongodb://172.28.31.5:27017/?replicaSet=rs0&connectTimeoutMS=10000" # Authentication database URL
+  nrfUri: http://localhost:29000 # a valid URI of NRF
+  webuiUri: http://localhost:5001 # WebUI URI
+  metricsPort: ":9174"
+
+# the kind of log output
+# debugLevel: how detailed to output, value: trace, debug, info, warn, error, fatal, panic
+# ReportCaller: enable the caller report or not, value: true or false
+logger:
+  UDR:
+    debugLevel: info
+    ReportCaller: false
+  OpenApi:
+    debugLevel: info
+    ReportCaller: false
+  MongoDBLibrary:
+    debugLevel: info
+    ReportCaller: false
+  PathUtil:
+    debugLevel: info
+    ReportCaller: false

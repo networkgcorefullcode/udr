@@ -37,10 +37,11 @@ const (
 )
 
 type Configuration struct {
-	Sbi      *Sbi     `yaml:"sbi"`
-	Mongodb  *Mongodb `yaml:"mongodb"`
-	NrfUri   string   `yaml:"nrfUri"`
-	WebuiUri string   `yaml:"webuiUri"`
+	Sbi         *Sbi     `yaml:"sbi"`
+	Mongodb     *Mongodb `yaml:"mongodb"`
+	NrfUri      string   `yaml:"nrfUri"`
+	WebuiUri    string   `yaml:"webuiUri"`
+	MetricsPort string   `yaml:"metricsPort,omitempty"`
 }
 
 type Sbi struct {
