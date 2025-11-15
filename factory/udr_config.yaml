@@ -20,7 +20,7 @@ configuration:
       pem: /support/TLS/udr.pem # UDR TLS Certificate
       key: /support/TLS/udr.key # UDR TLS Private key
   mongodb: # MongoDB configuration
-    name: sdcore_udr # Main database name
+    name: aether # Main database name
     url: "mongodb://172.28.31.5:27017/?replicaSet=rs0&connectTimeoutMS=10000" # MongoDB connection URL
     authKeysDbName: authentication # Authentication keys database name
     authUrl: "mongodb://172.28.31.5:27017/?replicaSet=rs0&connectTimeoutMS=10000" # Authentication database URL
